@@ -1,7 +1,7 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/effect-cards';
-import { EffectCards,Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-cards";
+import { EffectCards, Autoplay } from "swiper/modules";
 
 export default function Carousel() {
   const images = [
@@ -19,21 +19,21 @@ export default function Carousel() {
   return (
     <div className="flex justify-center items-center min-h-screen w-full overflow-hidden">
       <Swiper
-        effect={'cards'}
+        effect={"cards"}
         grabCursor={true}
-        modules={[EffectCards]} // Autoplay
-        // autoplay={{ delay: 3000, disableOnInteraction: false }} 
+        modules={[EffectCards, Autoplay]} // Autoplay
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         className="w-72 h-96 sm:w-72 sm:h-96 md:w-72 md:h-96 lg:w-72 lg:h-96"
       >
         {images.map((img, index) => (
           <SwiperSlide
             key={index}
-            className="flex items-center justify-center rounded-lg text-white text-2xl font-bold bg-white/5 shadow-lg border border-white/20 backdrop-blur-sm"
+            className="flex p-6 items-center justify-center rounded-lg text-white text-2xl font-bold bg-white/5 shadow-lg border border-white/20 backdrop-blur-sm"
           >
             <img
               src={img}
               alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover rounded-lg"
+              className="w-[250px] object-cover rounded-lg"
             />
           </SwiperSlide>
         ))}

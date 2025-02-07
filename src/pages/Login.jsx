@@ -1,39 +1,52 @@
-import React from "react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[#141414]">
+    <div className="flex justify-center items-center min-h-screen p-4 md:p-10 bg-[#141414]">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl border border-gray-600 text-white">
         <h1 className="text-2xl font-bold text-center">Login</h1>
-        <form className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-1 text-sm">
             <label htmlFor="username" className="block text-white">
               Username
             </label>
             <input
               type="text"
-              name="username"
-              id="username"
+              {...register("username", { required: true })}
               placeholder="Username"
               className="w-full bg-[#1A1A1A] px-4 py-3 rounded-md focus:dark:border-violet-600"
             />
+            {errors.username && (
+              <span className="text-red-600">Username is required</span>
+            )}
           </div>
           <div className="space-y-1 text-sm relative">
-            <label htmlFor="password" className="block text-white">
-              Password
-            </label>
+            <label className="block text-white">Password</label>
             <input
               type={showPassword ? "text" : "password"}
-              name="password"
-              id="password"
+              {...register("password", { required: true })}
               placeholder="Password"
               className="w-full bg-[#1A1A1A] px-4 py-3 rounded-md focus:dark:border-violet-600"
             />
+            {errors.password && (
+              <span className="text-red-600">Password is required</span>
+            )}
             <span
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-white"
@@ -44,16 +57,17 @@ const Login = () => {
               <a rel="noopener noreferrer">Forgot Password?</a>
             </div>
           </div>
+
           <button
             type="submit"
             className="block w-full p-3 text-center rounded-sm bg-[#FFD11A] text-black font-medium cursor-pointer"
           >
-            Sign in
+            Login
           </button>
         </form>
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
-          <p className="px-3 text-sm text-white">Login with social accounts</p>
+          <p className="px-3 text-sm text-white">SignUp with social accounts</p>
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
         </div>
         <div className="flex justify-center space-x-4">
@@ -87,13 +101,9 @@ const Login = () => {
         </div>
         <p className="text-xs text-center sm:px-6 text-white">
           Don&apos;t have an account?
-          <a
-            rel="noopener noreferrer"
-            href="#"
-            className="underline text-blue-600  "
-          >
+          <Link to={"/register"} className="underline text-blue-600  ">
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

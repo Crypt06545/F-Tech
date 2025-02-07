@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import logo from "../assets/images/nav.png";
+import { AuthContext } from "../providers/Authprovider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
     { name: "Home", path: "/" },
+    { name: "Products", path: "/products" },
     { name: "News", path: "/news" },
-    { name: "Podcast", path: "/podcast" },
     { name: "Resources", path: "/resources" },
   ];
 
@@ -38,19 +40,34 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Login Button */}
+          {/* Login/Logout Button (Desktop) */}
           <div className="hidden md:block">
-            <button className="bg-[#FFD11A] px-5 py-3.5 rounded-lg cursor-pointer">
-              Login
-            </button>
+            {user ? (
+              <button
+                className="bg-red-500 text-white px-5 py-3.5 rounded-lg cursor-pointer"
+                onClick={logOut}
+              >
+                Logout
+              </button>
+            ) : (
+              <button className="bg-[#FFD11A] px-5 py-3.5 rounded-lg cursor-pointer">
+                <Link to={"/login"}>Login</Link>
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu Icon */}
           <div className="md:hidden relative">
             {isMenuOpen ? (
-              <HiX className="text-white text-3xl cursor-pointer" onClick={toggleMenu} />
+              <HiX
+                className="text-white text-3xl cursor-pointer"
+                onClick={toggleMenu}
+              />
             ) : (
-              <HiMenuAlt3 className="text-white text-3xl cursor-pointer" onClick={toggleMenu} />
+              <HiMenuAlt3
+                className="text-white text-3xl cursor-pointer"
+                onClick={toggleMenu}
+              />
             )}
 
             {/* Mobile Dropdown Menu */}
@@ -66,6 +83,25 @@ const Navbar = () => {
                     {link.name}
                   </Link>
                 ))}
+
+                {/* Login/Logout Button (Mobile) */}
+                <div className="border-t border-gray-600 mt-2">
+                  {user ? (
+                    <button
+                      className="block w-full text-left px-5 py-3 text-red-500 text-lg font-medium hover:bg-gray-700 transition-all duration-300"
+                      onClick={logOut}
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="block px-5 py-3 text-[#FFD11A] text-lg font-medium hover:bg-gray-700 transition-all duration-300"
+                    >
+                      Login
+                    </Link>
+                  )}
+                </div>
               </div>
             )}
           </div>
