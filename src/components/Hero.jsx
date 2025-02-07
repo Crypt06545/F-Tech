@@ -2,6 +2,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 import particles from "../assets/images/abs-particles.png";
 import latestNews from "../assets/images/latest-news.png";
 import CountUp from "react-countup";
+import Carusal from "./Carusal";
 
 const Hero = () => {
   return (
@@ -53,10 +54,11 @@ const Hero = () => {
           </div>
         </div>
         <div
-          className="lg:w-[50%] bg-contain  bg-no-repeat h-[400px] md:h-[500px] sm:h-[300px]"
+          className="lg:w-[50%] flex justify-center items-center bg-contain  bg-no-repeat h-[500px] md:h-[500px]"
           style={{ backgroundImage: `url(${particles})` }}
         >
           {/* The background image is now applied here */}
+          <Carusal/>
         </div>
       </div>
       <div className="border-y border-gray-600 w-full bg-[#141414]">
