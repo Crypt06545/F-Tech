@@ -2,19 +2,25 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/Authprovider";
 
 const Register = () => {
-  const { signInwithGoogle } = useContext(AuthContext);
+  const { signInwithGoogle, createUser, setUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
   const onSubmit = (data) => {
-    console.log(data);
+    createUser(data.email, data.password).then((res) => {
+      const loggedUser = res.user;
+      setUser(loggedUser);
+      // console.log(loggedUser);
+      navigate("/");
+    });
   };
 
   const handleGoogleSignIn = async () => {
