@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import logo from "../assets/images/nav.png";
@@ -6,6 +6,8 @@ import { AuthContext } from "../providers/Authprovider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  // console.log(user?.photoURL, user?.displayName);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
@@ -40,15 +42,27 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Login/Logout Button (Desktop) */}
-          <div className="hidden md:block">
-            {user ? (
-              <button
-                className="bg-red-500 text-white px-5 py-3.5 rounded-lg cursor-pointer"
-                onClick={logOut}
-              >
-                Logout
-              </button>
+          {/* Profile & Login/Logout Button (Desktop) */}
+          <div className="hidden md:flex items-center gap-4">
+            {user && user?.email ? (
+              <>
+                <div className="relative group">
+                  <img
+                    src={user?.photoURL}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full cursor-pointer"
+                  />
+                  <div className="absolute top-full mt-2 -left-12 bg-white shadow-lg rounded-lg p-2 opacity-0 group-hover:opacity-100 transition duration-300">
+                    <p className="text-sm text-gray-700">{user?.displayName}</p>
+                    <button
+                      onClick={logOut}
+                      className="text-red-500 hover:bg-gray-100 px-4 py-1 w-full text-left"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </>
             ) : (
               <button className="bg-[#FFD11A] px-5 py-3.5 rounded-lg cursor-pointer">
                 <Link to={"/login"}>Login</Link>
@@ -84,15 +98,25 @@ const Navbar = () => {
                   </Link>
                 ))}
 
-                {/* Login/Logout Button (Mobile) */}
+                {/* Profile & Login/Logout Button (Mobile) */}
                 <div className="border-t border-gray-600 mt-2">
-                  {user ? (
-                    <button
-                      className="block w-full text-left px-5 py-3 text-red-500 text-lg font-medium hover:bg-gray-700 transition-all duration-300"
-                      onClick={logOut}
-                    >
-                      Logout
-                    </button>
+                  {user && user.email ? (
+                    <>
+                      <div className="flex items-center gap-2 px-5 py-3">
+                        <div>
+                          <img src={user?.photoURL} alt="" />
+                        </div>
+                        <span className="text-white text-lg">
+                          {user?.displayName || "User"}
+                        </span>
+                      </div>
+                      <button
+                        className="block w-full text-left px-5 py-3 text-red-500 text-lg font-medium hover:bg-gray-700 transition-all duration-300"
+                        onClick={logOut}
+                      >
+                        Logout
+                      </button>
+                    </>
                   ) : (
                     <Link
                       to="/login"
